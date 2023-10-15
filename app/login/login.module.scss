@@ -26,8 +26,8 @@
         align-items: flex-end;
         bottom: 0px;
         right: 0;
-        width: 320px;
-        height: 180px;
+        width: 250px;
+        height: 120px;
         background: url('../../public/login-shape.png') no-repeat left top;
         background-size: cover;
     }
@@ -141,6 +141,45 @@
                 color: $main-color;
                 text-decoration: none;
             }
+        }
+    }
+}
+
+@media (max-width: 800px) {
+    .wrapper{
+
+        &__container{
+            justify-content: center;
+        }
+
+        &__right{
+            display: none;
+        }
+
+        &__left{
+            width: 80%;
+        }
+    }
+}
+
+@media (max-width: 550px) {
+    .wrapper{
+        overflow-x: hidden;
+        &::after{
+            width: 170px;
+            height: 70px;
+        }
+
+        &__container{
+            justify-content: center;
+        }
+
+        &__right{
+            display: none;
+        }
+
+        &__left{
+            width: 100%;
         }
     }
 }

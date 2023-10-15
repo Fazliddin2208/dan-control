@@ -9,8 +9,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash, faSquareCheck, faUser } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import { faSquare } from '@fortawesome/free-regular-svg-icons'
+import { useRouter } from 'next/navigation'
+import Loading from '../components/Loading'
+import Snackbar from '../components/Snackbar'
 
 export default function Login() {
+
+    const router = useRouter()
+
+    const [loading, setLoading] = useState(false)
+    const [snackOpen, setSnackOpen] = useState(false)
+    const [snackText, setSnackText] = useState('')
+    const [snackPriority, setSnackPriority] = useState('')
+
+    const handleSnackOpen = () => {
+        setSnackOpen(true)
+    }
+
+    const handleSnackClose = () => {
+        setSnackOpen(false)
+    }
 
     const [showPassword, setShowPassword] = useState(false)
 
@@ -24,26 +42,65 @@ export default function Login() {
         setRemember(!remember)
     }
 
+    const [datas, setDatas] = useState({})
+
+    const handlePickDatas = (e) => {
+        setDatas({ ...datas, [e.target.name]: e.target.value })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        setLoading(true)
+        setTimeout(()=>{
+            if (datas.login === 'admin' && datas.password === 'parol') {
+                handleSnackOpen()
+                setSnackText("Muvaffaqiyatli ro'yhatdan o'tdingiz!")
+                setSnackPriority("success")
+                setTimeout(()=>{
+                    router.push('/')
+                }, 5000)
+            } else {
+                handleSnackOpen()
+                setSnackText("Xatolik yuz berdi!")
+                setSnackPriority("danger")
+            }
+            setLoading(false)
+        }, 2000)
+    }
+
     return (
         <div className={Style.wrapper}>
+            <Snackbar open={snackOpen} close={handleSnackClose} text={snackText} priority={snackPriority} />
             <div className={Style.wrapper__container}>
                 <div className={Style.wrapper__left}>
                     <Image src={Logo} alt='logo' width={400} quality={100} priority='blur' />
                     <h3>Akkountga kirish</h3>
 
-                    <form className={Style.wrapper__form}>
+                    <form onSubmit={handleSubmit} className={Style.wrapper__form}>
                         <div className={Style.wrapper__form__top}>
                             <div className={Style.wrapper__form__row}>
                                 <label>Login</label>
                                 <div>
-                                    <input type="text" placeholder='Login...' />
+                                    <input
+                                        name='login'
+                                        onChange={handlePickDatas}
+                                        type="text"
+                                        placeholder='Login...'
+                                        required
+                                    />
                                     <FontAwesomeIcon icon={faUser} />
                                 </div>
                             </div>
                             <div className={Style.wrapper__form__row}>
                                 <label>Parol</label>
                                 <div>
-                                    <input type={!showPassword ? "password" : "text"} placeholder='Password...' />
+                                    <input
+                                        name='password'
+                                        onChange={handlePickDatas}
+                                        type={!showPassword ? "password" : "text"}
+                                        placeholder='Password...'
+                                        required
+                                    />
                                     {
                                         showPassword ?
                                             <FontAwesomeIcon onClick={changePasswordType} icon={faEye} /> :
@@ -61,8 +118,13 @@ export default function Login() {
                             </div>
                         </div>
                         <div className={Style.wrapper__form__bottom}>
-                            <button className='button'>Kirish</button>
-                            <Link href={'/'}>Parolni unutdingizmi?</Link>
+                            <button disabled={loading || snackOpen} className={loading || snackOpen ? 'button disabled' : 'button'}>
+                                {loading ?
+                                    <Loading /> :
+                                    'Kirish'
+                                }
+                            </button>
+                            <Link href='/'>Parolni unutdingizmi?</Link>
                         </div>
                     </form>
                 </div>
