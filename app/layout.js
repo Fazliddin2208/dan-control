@@ -1,5 +1,6 @@
 import { Inter, Roboto } from 'next/font/google'
 import './styles/style.scss'
+import Sidebar from './components/Sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,7 +18,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className={roboto.className}>
+        {children}
+        <Sidebar />
+      </body>
     </html>
   )
 }

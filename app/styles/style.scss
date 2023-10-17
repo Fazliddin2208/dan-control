@@ -25,3 +25,23 @@ body {
         box-shadow: none;
     }
 }
+
+.header{
+    height: 60px;
+    background-color: $main-color;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    color: $white;
+
+    svg{
+        width: 20px;
+        cursor: pointer;
+    }
+
+    h3{
+        width: 100%;
+        text-align: center;
+        font-weight: normal;
+    }
+}

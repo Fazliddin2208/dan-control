@@ -1,9 +1,9 @@
-import Loader from "./components/Loader";
+import Header from "./components/Header";
 
 export default function Home() {
   return (
     <div>
-      <Loader />
+      <Header title="Statistika bo'limi" />
       <h3>Hello world</h3>
     </div>
   )
